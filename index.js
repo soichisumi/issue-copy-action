@@ -37,7 +37,7 @@ const getIssue = async (token) => {
     const issue = await octocat.issues.get({
         owner: repo.owner,
         repo: repo.repo,
-        num: issueNum,
+        issue_number: issueNum,
     });
     
     return issue;
