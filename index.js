@@ -11,7 +11,7 @@ const getPRNumber = () => {
 };
 
 const getIssueNumber = () => {
-    core.debug('getIssueNumber');
+    console.log('getIssueNumber');
     const issue = github.context.payload.issue;
     if (!issue) {
         return undefined;
@@ -25,7 +25,7 @@ const getRepo = () => {
 }
 
 const getIssue = async (token) => {
-    core.debug('getIssue');
+    console.log('getIssue');
     let octocat = new github.GitHub(token);
     const issueNum = getIssueNumber();
 
@@ -43,7 +43,7 @@ const getIssue = async (token) => {
 };
 
 const checkKeywords = (keywords, title, body) => {
-    core.debug('checkKeyword');
+    console.log('checkKeyword');
     const lowerBody = body.toLowerCase()
     for(let k of keywords) {
         if (k.toLowerCase().includes(k)){
@@ -54,7 +54,7 @@ const checkKeywords = (keywords, title, body) => {
 }
 
 const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
-    core.debug('createNewIssue');
+    console.log('createNewIssue');
     const octokit = new github.GitHub(token);
     if (!!fromIssue) {
         body = body + `\n\ncopiedFrom: ${fromIssue}`
