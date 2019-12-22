@@ -74,6 +74,7 @@ async function run() {
   try { 
     const keyword = core.getInput('keyword', {required: true});
     const repo = core.getInput('repo', {required: true}); // owner/repoName
+    
     const splitted = repo.split('/')
     const owner = splitted[0];
     const repoName = splitted[1];
@@ -86,9 +87,9 @@ async function run() {
       return;
     }
 
-    await createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], '', issue.data.url);
+    const created = await createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], '', issue.data.url);
 
-    core.setOutput('time', new Date().toTimeString());
+    core.setOutput('created', created);
   } 
   catch (error) {
     core.setFailed(error.message);

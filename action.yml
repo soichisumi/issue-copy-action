@@ -1,13 +1,17 @@
-name: 'Wait'
+name: 'copy issue'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  github-token:
+    description: "github token"
     required: true
-    default: '1000'
+  repo:
+    description: 'target repository. format .. owner:repoName'
+    required: true
+  keyword:
+    description: 'keyword which triggers this action'
 outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+  created: # output will be available to future steps 
+    description: 'The created issue'
 runs:
   using: 'node12'
   main: 'dist/index.js'
