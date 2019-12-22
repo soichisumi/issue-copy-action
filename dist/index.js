@@ -825,6 +825,7 @@ const getIssueNumber = () => {
 }
 
 const getRepo = () => {
+    console.log('getRepo');
     const repo = github.context.repo;
     return repo;
 }
