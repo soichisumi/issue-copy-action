@@ -100,4 +100,4 @@ async function run() {
   }
 }
 
-run().then(()=>{})
+run()
