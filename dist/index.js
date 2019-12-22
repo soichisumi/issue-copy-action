@@ -838,11 +838,12 @@ const getIssue = async (token) => {
     if (!issueNum) {
         throw new Error("No issue provided");
     }
+    console.log(`issueNum: ${JSON.stringify(issueNum)}`);
     const repo = getRepo();
     const issue = await octocat.issues.get({
         owner: repo.owner,
         repo: repo.repo,
-        num: issueNum,
+        issue_number: issueNum,
     });
     
     return issue;
