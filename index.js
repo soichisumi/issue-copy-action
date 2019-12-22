@@ -11,6 +11,7 @@ const getPRNumber = () => {
 };
 
 const getIssueNumber = () => {
+    core.debug('getIssueNumber');
     const issue = github.context.payload.issue;
     if (!issue) {
         return undefined;
@@ -24,14 +25,15 @@ const getRepo = () => {
 }
 
 const getIssue = async (token) => {
-    let g = new github.GitHub(token);
+    core.debug('getIssue');
+    let octocat = new github.GitHub(token);
     const issueNum = getIssueNumber();
 
     if (!issueNum) {
         throw new Error("No issue provided");
     }
     const repo = getRepo();
-    const issue = await g.issues.get({
+    const issue = await octocat.issues.get({
         owner: repo.owner,
         repo: repo.repo,
         num: issueNum,
@@ -40,7 +42,8 @@ const getIssue = async (token) => {
     return issue;
 };
 
-const checkKeyword = (keywords, title, body) => {
+const checkKeywords = (keywords, title, body) => {
+    core.debug('checkKeyword');
     const lowerBody = body.toLowerCase()
     for(let k of keywords) {
         if (k.toLowerCase().includes(k)){
@@ -51,6 +54,7 @@ const checkKeyword = (keywords, title, body) => {
 }
 
 const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
+    core.debug('createNewIssue');
     const octokit = new github.GitHub(token);
     if (!!fromIssue) {
         body = body + `\n\ncopiedFrom: ${fromIssue}`
@@ -82,7 +86,7 @@ async function run() {
     const token = core.getInput('github-token');
     const issue = await getIssue(token);
 
-    if (!checkKeyword([keyword], issue.data.title, issue.data.body)){
+    if (!checkKeywords([keyword], issue.data.title, issue.data.body)){
       console.log("Keyword not included");
       return;
     }
