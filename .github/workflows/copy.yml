@@ -1,0 +1,14 @@
+name: "test issue copy"
+on:
+    issue_comment:
+        types: [created]
+jobs:
+    copy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: ./
+              with:
+                keyword: "/copy"
+                repo: soichisumi/issue-copy-action
+                
