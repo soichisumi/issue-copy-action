@@ -11,4 +11,6 @@ jobs:
               with:
                 keyword: "/copy"
                 repo: soichisumi/issue-copy-action
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+
                 
