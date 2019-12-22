@@ -898,7 +898,7 @@ async function run() {
       return;
     }
 
-    const created = await createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], [], issue.data.url);
+    const created = await createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], [], issue.data.html_url);
 
     core.setOutput('created', created);
   } 
