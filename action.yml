@@ -1,14 +1,15 @@
 name: 'copy issue'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  github-token:
+  githubToken:
     description: "github token"
     required: true
-  repo:
+  targetRepository:
     description: 'target repository. format .. owner:repoName'
     required: true
   keyword:
     description: 'keyword which triggers this action'
+    default: '/copy'
 outputs:
   created: # output will be available to future steps 
     description: 'The created issue'

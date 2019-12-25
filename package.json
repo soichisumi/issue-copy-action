@@ -2,9 +2,9 @@
   "name": "issue-copy-action",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint index.js",
+    "lint": "eslint index.js --fix",
     "package": "ncc build index.js -o dist",
     "test": "eslint index.js && jest"
   },
@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/soichisumi/issue-copy-action/issues"
   },
