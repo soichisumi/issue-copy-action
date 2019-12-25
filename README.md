@@ -6,7 +6,7 @@ This action copies issue to another repository by any keyword.
 
 ### `targetRepository`
 
-**Required** Pass ${{ secrets.GITHUB_TOKEN }}.
+**Required** The repository to which generated issue is copied. format: $OWNER/$REPO_NAME.
 
 ### `githubToken`
 

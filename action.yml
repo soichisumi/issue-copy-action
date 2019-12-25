@@ -6,10 +6,10 @@ inputs:
     description: "Github token"
     required: true
   targetRepository:
-    description: 'Target repository. format: $OWNER/$REPO_NAME'
+    description: 'Repository to which generated issue is copied. format: $OWNER/$REPO_NAME'
     required: true
   keyword:
-    description: 'Keyword to trigger this action. Copy is executed in the case of lowercased issue comment matched with lowercased keyword.'
+    description: 'Keyword to trigger this action. The action is executed in the case of lowercased issue comment matched with lowercased keyword.'
     default: '/copy'
   contentOfNewIssue:
     description: 'Content of newly created issue'
