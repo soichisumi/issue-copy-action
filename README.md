@@ -1,18 +1,28 @@
-# Hello world javascript action
+# Issue Copy Action
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action copies issue to another repository by any keyword.
 
 ## Inputs
 
-### `who-to-greet`
+### `targetRepository`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** Pass ${{ secrets.GITHUB_TOKEN }}.
+
+### `githubToken`
+
+**Required** Set GITHUB_TOKEN to this input.
+
+### `keyword`
+
+**optioal** Pass ${{ secrets.GITHUB_TOKEN }}.
+
+Default: `/copy`
 
 ## Outputs
 
-### `time`
+### `created`
 
-The time we greeted you.
+The issue which is created by this action.
 
 ## Example usage
 
