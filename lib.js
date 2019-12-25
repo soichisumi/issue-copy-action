@@ -47,7 +47,7 @@ module.exports.checkKeywords = checkKeywords;
 
 const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
     const octokit = new github.GitHub(token);
-    if (fromIssue) {
+    if (!fromIssue) {
         throw new Error('fromIssue is not provided')
     }
     if (typeof body === 'string' && body !== '') {
