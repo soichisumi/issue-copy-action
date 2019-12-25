@@ -10,7 +10,7 @@ jobs:
             - uses: ./
               with:
                 keyword: "/copy"
-                repo: soichisumi/issue-copy-action
-                github-token: ${{ secrets.GITHUB_TOKEN }}
+                targetRepository: soichisumi/issue-copy-action
+                githubToken: ${{ secrets.GITHUB_TOKEN }}
 
                 

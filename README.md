@@ -26,6 +26,6 @@ The issue which is created by this action.
 
 ## Example usage
 
-uses: actions/hello-world-javascript-action@v1
+uses: soichisumi/issue-copy-action
 with:
   who-to-greet: 'Mona the Octocat'

@@ -56,13 +56,13 @@ const createNewIssue = async (token, owner, repoName, title, body, assignees, la
 async function run() {
   try { 
     const keyword = core.getInput('keyword', {required: true});
-    const repo = core.getInput('repo', {required: true}); // format: $OWNER/$REPO_NAME
+    const repo = core.getInput('targetRepository', {required: true}); // format: $OWNER/$REPO_NAME
     
     const splitted = repo.split('/');
     const owner = splitted[0];
     const repoName = splitted[1];
 
-    const token = core.getInput('github-token');
+    const token = core.getInput('githubToken');
     const issue = await getIssue(token);
 
     if (!checkKeywords([keyword], issue.data.body)){
