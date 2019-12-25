@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const lib = require('./lib');
 
 async function run() {
-  try { 
+  try {
     const keyword = core.getInput('keyword', {required: true});
     const repo = core.getInput('targetRepository', {required: true}); // format: $OWNER/$REPO_NAME
     
@@ -11,10 +11,10 @@ async function run() {
     const repoName = splitted[1];
 
     const token = core.getInput('githubToken');
-    const issue = await lib.getIssue(token);
+    const issue = await lib.getIssueFromContext(token);
 
-    if (!lib.checkKeywords([keyword], issue.data.body)){
-      console.log("Keyword not included");
+    if (!lib.checkKeywords([keyword], lib.getIssueCommentFromContext().body)){
+      console.log(`Keyword not included. keyword: ${keyword}, ${issue.data.body}`);
       return;
     }
 

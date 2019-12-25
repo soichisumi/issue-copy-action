@@ -804,62 +804,10 @@ InternalDecoderCesu8.prototype.end = function() {
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
-const github = __webpack_require__(469);
-
-const getIssueNumber = () => {
-    const issue = github.context.payload.issue;
-    if (!issue) {
-        throw new Error("No issue provided");
-    }
-    return issue.number;
-};
-
-// getIssue from context
-const getIssue = async (token) => {
-    let octocat = new github.GitHub(token);
-    const issueNum = getIssueNumber();
-
-    const repo = github.context.repo;
-    const issue = await octocat.issues.get({
-        owner: repo.owner,
-        repo: repo.repo,
-        issue_number: issueNum,
-    });
-    
-    return issue;
-};
-
-const checkKeywords = (keywords, body) => {
-    const lowerBody = body.toLowerCase();
-    for(let k of keywords) {
-        if (lowerBody.toLowerCase().includes(k)){
-            return true;
-        }
-    }
-    return false;
-};
-
-const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
-    const octokit = new github.GitHub(token);
-    if (fromIssue) {
-        body = body + `\n\ncopiedFrom: ${fromIssue}`;
-    }
-
-    const res = await octokit.issues.create(
-        {
-            owner: owner,
-            repo: repoName,
-            title: title,
-            body: body,
-            assignees: assignees,
-            labels: labels,
-        }
-    );
-    return [res.id, res.number].join(':');
-};
+const lib = __webpack_require__(703);
 
 async function run() {
-  try { 
+  try {
     const keyword = core.getInput('keyword', {required: true});
     const repo = core.getInput('targetRepository', {required: true}); // format: $OWNER/$REPO_NAME
     
@@ -868,14 +816,14 @@ async function run() {
     const repoName = splitted[1];
 
     const token = core.getInput('githubToken');
-    const issue = await getIssue(token);
+    const issue = await lib.getIssueFromContext(token);
 
-    if (!checkKeywords([keyword], issue.data.body)){
-      console.log("Keyword not included");
+    if (!lib.checkKeywords([keyword], lib.getIssueCommentFromContext().body)){
+      console.log(`Keyword not included. keyword: ${keyword}, ${issue.data.body}`);
       return;
     }
 
-    const created = await createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], [], issue.data.html_url);
+    const created = await lib.createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], [], issue.data.html_url);
 
     core.setOutput('created', created);
   } 
@@ -8723,6 +8671,78 @@ module.exports = (promise, onFinally) => {
 	);
 };
 
+
+/***/ }),
+
+/***/ 703:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+// content of context: https://developer.github.com/v3/activity/events/types/
+const github = __webpack_require__(469);
+
+const getIssueNumber = () => {
+    const issue = github.context.payload.issue;
+    if (!issue) {
+        throw new Error("No issue provided");
+    }
+    return issue.number;
+};
+module.exports.getIssueNumber = getIssueNumber;
+
+const getIssueFromContext = async (token) => {
+    let octocat = new github.GitHub(token);
+    const issueNum = getIssueNumber();
+
+    const repo = github.context.repo;
+    const issue = await octocat.issues.get({
+        owner: repo.owner,
+        repo: repo.repo,
+        issue_number: issueNum,
+    });
+    
+    return issue;
+};
+module.exports.getIssueFromContext = getIssueFromContext;
+
+const getIssueCommentFromContext = () => {
+    const comment = github.context.payload.comment;
+    if (!comment) {
+        throw new Error("No issue provided");
+    }
+    return comment;
+} 
+module.exports.getIssueCommentFromContext = getIssueCommentFromContext;
+
+const checkKeywords = (keywords, body) => {
+    const lowerBody = body.toLowerCase();
+    for(let k of keywords) {
+        if (lowerBody.toLowerCase().includes(k.toLowerCase())){
+            return true;
+        }
+    }
+    return false;
+};
+module.exports.checkKeywords = checkKeywords;
+
+const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
+    const octokit = new github.GitHub(token);
+    if (fromIssue) {
+        body = body + `\n\ncopiedFrom: ${fromIssue}`;
+    }
+
+    const res = await octokit.issues.create(
+        {
+            owner: owner,
+            repo: repoName,
+            title: title,
+            body: body,
+            assignees: assignees,
+            labels: labels,
+        }
+    );
+    return [res.id, res.number].join(':');
+};
+module.exports.createNewIssue = createNewIssue;
 
 /***/ }),
 
