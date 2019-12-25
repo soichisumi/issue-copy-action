@@ -1,3 +1,4 @@
+// content of context: https://developer.github.com/v3/activity/events/types/
 const github = require('@actions/github');
 
 const getIssueNumber = () => {
@@ -9,8 +10,7 @@ const getIssueNumber = () => {
 };
 module.exports.getIssueNumber = getIssueNumber;
 
-// getIssue from context
-const getIssue = async (token) => {
+const getIssueFromContext = async (token) => {
     let octocat = new github.GitHub(token);
     const issueNum = getIssueNumber();
 
@@ -23,7 +23,16 @@ const getIssue = async (token) => {
     
     return issue;
 };
-module.exports.getIssue = getIssue;
+module.exports.getIssueFromContext = getIssueFromContext;
+
+const getIssueCommentFromContext = () => {
+    const comment = github.context.payload.comment;
+    if (!comment) {
+        throw new Error("No issue provided");
+    }
+    return comment;
+} 
+module.exports.getIssueCommentFromContext = getIssueCommentFromContext;
 
 const checkKeywords = (keywords, body) => {
     const lowerBody = body.toLowerCase();
