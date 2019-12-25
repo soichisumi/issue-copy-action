@@ -29,7 +29,7 @@ with:
 
 ### `targetRepository`
 
-**Required** The repository to which generated issue is copied. format: $OWNER/$REPO_NAME.
+**Required** The repository to which generated issue is copied. format: \$OWNER/\$REPO_NAME.
 
 ### `githubToken`
 
@@ -37,9 +37,15 @@ with:
 
 ### `keyword`
 
-**optioal** Pass ${{ secrets.GITHUB_TOKEN }}.
+**optioal** Set ${{ secrets.GITHUB_TOKEN }}.
 
 Default: `/copy`
+
+### `contentOfNewIssue`
+
+**optional** Content of newly created issue.
+
+Default: `''`
 
 ## Outputs
 
