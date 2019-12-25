@@ -26,6 +26,10 @@ The issue which is created by this action.
 
 ## Example usage
 
-uses: soichisumi/issue-copy-action
+```yaml
+uses: soichisumi/issue-copy-action@v0.1.0
 with:
-  who-to-greet: 'Mona the Octocat'
+  keyword: "/copy"
+  targetRepository: soichisumi/issue-copy-action
+  githubToken: ${{ secrets.GITHUB_TOKEN }}
+```
