@@ -805,41 +805,21 @@ InternalDecoderCesu8.prototype.end = function() {
 
 const core = __webpack_require__(470);
 const github = __webpack_require__(469);
-const wait = __webpack_require__(949);
-
-const getPRNumber = () => {
-    const pr = github.context.payload.pull_request;
-    if (!pr) {
-        return undefined;
-    }
-    return pr.number;
-};
 
 const getIssueNumber = () => {
-    console.log('getIssueNumber');
     const issue = github.context.payload.issue;
     if (!issue) {
-        return undefined;
+        throw new Error("No issue provided");
     }
     return issue.number;
-}
+};
 
-const getRepo = () => {
-    console.log('getRepo');
-    const repo = github.context.repo;
-    return repo;
-}
-
+// getIssue from context
 const getIssue = async (token) => {
-    console.log('getIssue');
     let octocat = new github.GitHub(token);
     const issueNum = getIssueNumber();
 
-    if (!issueNum) {
-        throw new Error("No issue provided");
-    }
-    console.log(`issueNum: ${JSON.stringify(issueNum)}`);
-    const repo = getRepo();
+    const repo = github.context.repo;
     const issue = await octocat.issues.get({
         owner: repo.owner,
         repo: repo.repo,
@@ -849,22 +829,20 @@ const getIssue = async (token) => {
     return issue;
 };
 
-const checkKeywords = (keywords, title, body) => {
-    console.log('checkKeyword');
-    const lowerBody = body.toLowerCase()
+const checkKeywords = (keywords, body) => {
+    const lowerBody = body.toLowerCase();
     for(let k of keywords) {
-        if (k.toLowerCase().includes(k)){
+        if (lowerBody.toLowerCase().includes(k)){
             return true;
         }
     }
     return false;
-}
+};
 
 const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
-    console.log('createNewIssue');
     const octokit = new github.GitHub(token);
-    if (!!fromIssue) {
-        body = body + `\n\ncopiedFrom: ${fromIssue}`
+    if (fromIssue) {
+        body = body + `\n\ncopiedFrom: ${fromIssue}`;
     }
 
     const res = await octokit.issues.create(
@@ -876,24 +854,23 @@ const createNewIssue = async (token, owner, repoName, title, body, assignees, la
             assignees: assignees,
             labels: labels,
         }
-    )
-    return [res.id, res.number].join(':')
+    );
+    return [res.id, res.number].join(':');
 };
 
-// most @actions toolkit packages have async methods
 async function run() {
   try { 
     const keyword = core.getInput('keyword', {required: true});
-    const repo = core.getInput('repo', {required: true}); // owner/repoName
+    const repo = core.getInput('targetRepository', {required: true}); // format: $OWNER/$REPO_NAME
     
-    const splitted = repo.split('/')
+    const splitted = repo.split('/');
     const owner = splitted[0];
     const repoName = splitted[1];
 
-    const token = core.getInput('github-token');
+    const token = core.getInput('githubToken');
     const issue = await getIssue(token);
 
-    if (!checkKeywords([keyword], issue.data.title, issue.data.body)){
+    if (!checkKeywords([keyword], issue.data.body)){
       console.log("Keyword not included");
       return;
     }
@@ -907,7 +884,7 @@ async function run() {
   }
 }
 
-run()
+run();
 
 /***/ }),
 
@@ -13335,23 +13312,6 @@ module.exports = function(fn) {
 	try { return fn() } catch (e) {}
 
 }
-
-/***/ }),
-
-/***/ 949:
-/***/ (function(module) {
-
-let wait = function(milliseconds) {
-    return new Promise((resolve, reject) => {
-      if (typeof(milliseconds) !== 'number') { 
-        throw new Error('milleseconds not a number'); 
-      }
-  
-      setTimeout(() => resolve("done!"), milliseconds)
-    });
-  }
-  
-  module.exports = wait;
 
 /***/ }),
 
