@@ -5,10 +5,10 @@ inputs:
     description: "github token"
     required: true
   targetRepository:
-    description: 'target repository. format .. owner:repoName'
+    description: 'target repository. format: $OWNER/$REPO_NAME'
     required: true
   keyword:
-    description: 'keyword which triggers this action'
+    description: 'keyword to trigger this action'
     default: '/copy'
 outputs:
   created: # output will be available to future steps 
