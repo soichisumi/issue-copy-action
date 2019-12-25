@@ -810,7 +810,8 @@ async function run() {
   try {
     const keyword = core.getInput('keyword', {required: true});
     const repo = core.getInput('targetRepository', {required: true}); // format: $OWNER/$REPO_NAME
-    
+    const contentOfNewIssue = core.getInput('contentOfNewIssue', {require: true});
+
     const splitted = repo.split('/');
     const owner = splitted[0];
     const repoName = splitted[1];
@@ -823,7 +824,7 @@ async function run() {
       return;
     }
 
-    const created = await lib.createNewIssue(token, owner, repoName, issue.data.title, 'this is body', ['soichisumi'], [], issue.data.html_url);
+    const created = await lib.createNewIssue(token, owner, repoName, issue.data.title, contentOfNewIssue, ['soichisumi'], [], issue.data.html_url);
 
     core.setOutput('created', created);
   } 
@@ -8727,7 +8728,12 @@ module.exports.checkKeywords = checkKeywords;
 const createNewIssue = async (token, owner, repoName, title, body, assignees, labels, fromIssue) => {
     const octokit = new github.GitHub(token);
     if (fromIssue) {
+        throw new Error('fromIssue is not provided')
+    }
+    if (typeof body === 'string' && body !== '') {
         body = body + `\n\ncopiedFrom: ${fromIssue}`;
+    }else {
+        body = `copiedFrom: ${fromIssue}`
     }
 
     const res = await octokit.issues.create(
