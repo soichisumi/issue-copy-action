@@ -1,5 +1,6 @@
-name: 'copy issue'
-description: 'Wait a designated number of milliseconds'
+name: 'Github Issue Copier'
+description: 'Copy an issue to another repository'
+author: 'Soichi Sumi'
 inputs:
   githubToken:
     description: "github token"
@@ -16,3 +17,6 @@ outputs:
 runs:
   using: 'node12'
   main: 'dist/index.js'
+branding:
+  icon: 'activity'
+  color: 'green'
