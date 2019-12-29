@@ -17,7 +17,7 @@ This action copies issue to another repository by any keyword.
 ### workflow.yaml
 
 ```yaml
-uses: soichisumi/issue-copy-action@v0.1.0
+uses: soichisumi/issue-copy-action@v0.2.0
 with:
   keyword: "/copy"
   targetRepository: soichisumi/issue-copy-action
@@ -37,7 +37,7 @@ with:
 
 ### `keyword`
 
-**optioal** Set ${{ secrets.GITHUB_TOKEN }}.
+**optional** Keyword to trigger this action. The action is executed in the case of lowercased issue comment matched with lowercased keyword.
 
 Default: `/copy`
 
