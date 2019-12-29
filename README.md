@@ -1,3 +1,8 @@
+[![CI](https://github.com/soichisumi/issue-copy-action/workflows/unit-test/badge.svg)](https://github.com/soichisumi/issue-copy-action/actions)
+[![Release](https://img.shields.io/github/v/release/soichisumi/issue-copy-action.svg?logo=github)](https://github.com/soichisumi/issue-copy-action/releases)
+[![Marketplace](https://img.shields.io/badge/marketplace-issue--copy--action-blue?logo=github)](https://github.com/marketplace/actions/label-syncer)
+[![Dependabot](https://badgen.net/badge/icon/Dependabot?icon=dependabot&label&color=blue)](https://dependabot.com)
+
 # Issue Copy Action
 
 This action copies issue to another repository by any keyword.
@@ -33,7 +38,7 @@ with:
 
 ### `githubToken`
 
-**Required** Set GITHUB_TOKEN to this input.
+**Required** Set Github Actions's GITHUB_TOKEN or your github token to this input.
 
 ### `keyword`
 
