@@ -3,6 +3,8 @@
 [![Marketplace](https://img.shields.io/badge/marketplace-issue--copy--action-blue?logo=github)](https://github.com/marketplace/actions/label-syncer)
 [![Dependabot](https://badgen.net/badge/icon/Dependabot?icon=dependabot&label&color=blue)](https://dependabot.com)
 
+🔔 **Notice**: This repository is not actively maintained. It is provided as a reference implementation. Use at your own risk.
+
 # Issue Copy Action
 
 This action copies issue to another repository by any keyword.
